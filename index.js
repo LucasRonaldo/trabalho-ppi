@@ -43,92 +43,93 @@ function renderBasePage(title, bodyHtml) {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
- 
- body {
+
+body {
 font-family: 'Poppins', sans-serif;
 background: #010a13; 
 color: #f0e6d2; 
 min-height: 100vh;
- }
- .container {
+}
+.container {
 padding-top: 30px;
 padding-bottom: 30px;
- }
- .card {
+}
+.card {
 border-radius: 12px;
 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
 background-color: #091428; 
 color: #f0e6d2; 
 border: 1px solid #c89b3c; 
- }
- .form-control, .form-select {
+}
+.form-control, .form-select {
 background-color: #091428;
 border: 1px solid #c89b3c;
 color: #f0e6d2;
- }
+}
 
- .form-control:focus, .form-select:focus {
+.form-control:focus, .form-select:focus {
 background-color: #091428;
 border-color: #ffd700;
 box-shadow: 0 0 0 0.25rem rgba(200, 155, 60, 0.5);
 color: #f0e6d2;
- }
+}
 
- .table {
+.table {
 --bs-table-bg: #091428; 
 --bs-table-striped-bg: #05101f;
 --bs-table-color: #f0e6d2;
 --bs-table-border-color: #1a2a47;
- }
-.table tbody td {
-color: #699deaff;
 }
- .table thead th {
+
+.table tbody td {
+color: #f0e6d2; 
+}
+.table thead th {
 color: #c89b3c;
 border-bottom: 2px solid #c89b3c;
- }
- .btn-lol-primary {
+}
+.btn-lol-primary {
 background-color: #c89b3c; 
 border-color: #c89b3c;
 color: #010a13 !important; 
 font-weight: 700;
 transition: all 0.2s;
- }
- .btn-lol-primary:hover {
+}
+.btn-lol-primary:hover {
 background-color: #ffd700;
 border-color: #ffd700;
 transform: translateY(-2px);
- }
- .btn-primary, .btn-success, .btn-secondary, .btn-info {
+}
+.btn-primary, .btn-success, .btn-secondary, .btn-info {
 background-color: #c89b3c; 
 border-color: #c89b3c;
 color: #010a13 !important;
 font-weight: 600;
- }
- .btn-primary:hover, .btn-success:hover, .btn-secondary:hover, .btn-info:hover {
+}
+.btn-primary:hover, .btn-success:hover, .btn-secondary:hover, .btn-info:hover {
 background-color: #ffd700;
 border-color: #ffd700;
- }
- .btn-danger {
+}
+.btn-danger {
 background-color: #a80000;
 border-color: #a80000;
 color: white !important;
- }
- .btn-danger:hover {
+}
+.btn-danger:hover {
 background-color: #d10000;
 border-color: #d10000;
- }
- h1, h2, h3 {
+}
+h1, h2, h3 {
 color: #c89b3c; 
- }
- 
- .text-secondary {
-color: #f0e6d2 !important;
- }
+}
 
- .text-muted, .fst-italic {
+.text-secondary {
+color: #f0e6d2 !important;
+}
+
+.text-muted, .fst-italic {
 color: #99a2b5 !important; 
- }
+}
 </style>
 </head>
 <body class="bg-dark"> 
@@ -144,7 +145,10 @@ app.get('/', verificaUserLogado, (req, res) => {
     const ultimoAcesso = req.cookies?.ultimoAcesso;
     const agora = new Date();
 
-    res.cookie('ultimoAcesso', agora.toLocaleString(), { maxAge: 1000 * 60 * 60 * 24 * 30 });
+    // CORREÇÃO: Força o uso do fuso horário de São Paulo (GMT-3) para o cookie e exibição
+    const dataFormatada = agora.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+
+    res.cookie('ultimoAcesso', dataFormatada, { maxAge: 1000 * 60 * 60 * 24 * 30 });
 
     const body = `
 <div class="container">
@@ -155,27 +159,27 @@ app.get('/', verificaUserLogado, (req, res) => {
 <div class="row row-cols-1 row-cols-md-2 g-3 mt-3">
 
 <div class="col">
- <a href="/equipes/novo" class="btn btn-lol-primary w-100 py-3">
- <i class="fas fa-users me-2"></i> Cadastro de Equipe
- </a>
+<a href="/equipes/novo" class="btn btn-lol-primary w-100 py-3">
+<i class="fas fa-users me-2"></i> Cadastro de Equipe
+</a>
 </div>
 
 <div class="col">
- <a href="/jogadores/novo" class="btn btn-lol-primary w-100 py-3">
- <i class="fas fa-user-plus me-2"></i> Cadastro de Jogador
- </a>
+<a href="/jogadores/novo" class="btn btn-lol-primary w-100 py-3">
+<i class="fas fa-user-plus me-2"></i> Cadastro de Jogador
+</a>
 </div>
 
 <div class="col">
- <a href="/equipes/listar" class="btn btn-secondary w-100 py-3">
- <i class="fas fa-list-ul me-2"></i> Listar Equipes
- </a>
+<a href="/equipes/listar" class="btn btn-secondary w-100 py-3">
+<i class="fas fa-list-ul me-2"></i> Listar Equipes
+</a>
 </div>
 
 <div class="col">
- <a href="/jogadores/listar" class="btn btn-info w-100 py-3">
- <i class="fas fa-users-cog me-2"></i> Listar Jogadores
- </a>
+<a href="/jogadores/listar" class="btn btn-info w-100 py-3">
+<i class="fas fa-users-cog me-2"></i> Listar Jogadores
+</a>
 </div>
 
 </div>
@@ -201,17 +205,17 @@ style="min-height: 100vh;">
 
 <form method="POST" action="/login">
 <div class="mb-3">
- <label class="form-label text-light">Usuário</label>
- <input class="form-control form-control-lg" name="usuario" required>
+<label class="form-label text-light">Usuário</label>
+<input class="form-control form-control-lg" name="usuario" required>
 </div>
 
 <div class="mb-3">
- <label class="form-label text-light">Senha</label>
- <input type="password" class="form-control form-control-lg" name="senha" required>
+<label class="form-label text-light">Senha</label>
+<input type="password" class="form-control form-control-lg" name="senha" required>
 </div>
 
 <button class="btn btn-lol-primary w-100 btn-lg mt-2">
- <i class="fas fa-sign-in-alt me-2"></i> Entrar
+<i class="fas fa-sign-in-alt me-2"></i> Entrar
 </button>
 </form>
 </div>
@@ -245,20 +249,20 @@ app.get('/equipes/novo', verificaUserLogado, (req, res) => {
 <h3 class="mb-4">Cadastro de Equipe</h3>
 <form method="POST" action="/equipes">
 <div class="mb-3">
- <label class="form-label">Nome da equipe</label>
- <input name="nome" class="form-control" required>
+<label class="form-label">Nome da equipe</label>
+<input name="nome" class="form-control" required>
 </div>
 <div class="mb-3">
- <label class="form-label">Nome do capitão</label>
- <input name="capitao" class="form-control" required>
+<label class="form-label">Nome do capitão</label>
+<input name="capitao" class="form-control" required>
 </div>
 <div class="mb-3">
- <label class="form-label">Telefone / WhatsApp</label>
- <input name="contato" class="form-control" required>
+<label class="form-label">Telefone / WhatsApp</label>
+<input name="contato" class="form-control" required>
 </div>
 <div class="mt-4">
- <button class="btn btn-lol-primary"><i class="fas fa-plus-circle me-2"></i>Cadastrar Equipe</button>
- <a class="btn btn-secondary ms-2" href="/"><i class="fas fa-arrow-left me-2"></i>Voltar</a>
+<button class="btn btn-lol-primary"><i class="fas fa-plus-circle me-2"></i>Cadastrar Equipe</button>
+<a class="btn btn-secondary ms-2" href="/"><i class="fas fa-arrow-left me-2"></i>Voltar</a>
 </div>
 </form>
 </div>`;
@@ -301,10 +305,10 @@ app.get('/equipes/listar', verificaUserLogado, (req, res) => {
     }
 
     html += `</tbody></table>
- </div>
+</div>
 <div class="d-flex justify-content-start gap-3 mt-4">
- <a class="btn btn-lol-primary" href="/equipes/novo"><i class="fas fa-plus me-2"></i>Cadastrar nova equipe</a>
- <a class="btn btn-secondary" href="/"><i class="fas fa-arrow-left me-2"></i>Voltar ao menu</a>
+<a class="btn btn-lol-primary" href="/equipes/novo"><i class="fas fa-plus me-2"></i>Cadastrar nova equipe</a>
+<a class="btn btn-secondary" href="/"><i class="fas fa-arrow-left me-2"></i>Voltar ao menu</a>
 </div>
 </div>`;
 
@@ -328,59 +332,59 @@ app.get('/jogadores/novo', verificaUserLogado, (req, res) => {
 <h3 class="mb-4">Cadastro de Jogador</h3>
 <form method="POST" action="/jogadores">
 <div class="mb-3">
- <label class="form-label">Nome do jogador</label>
- <input name="nome" class="form-control" required>
+<label class="form-label">Nome do jogador</label>
+<input name="nome" class="form-control" required>
 </div>
 <div class="mb-3">
- <label class="form-label">Nickname (in-game)</label>
- <input name="nick" class="form-control" required>
+<label class="form-label">Nickname (in-game)</label>
+<input name="nick" class="form-control" required>
 </div>
 <div class="mb-3">
- <label class="form-label">Função</label>
- <select name="funcao" class="form-select" required>
- <option value="">Selecione...</option>
- <option>Top</option>
- <option>Jungle</option>
- <option>Mid</option>
- <option>Atirador</option>
- <option>Suporte</option>
- </select>
+<label class="form-label">Função</label>
+<select name="funcao" class="form-select" required>
+<option value="">Selecione...</option>
+<option>Top</option>
+<option>Jungle</option>
+<option>Mid</option>
+<option>Atirador</option>
+<option>Suporte</option>
+</select>
 </div>
 <div class="mb-3">
- <label class="form-label">Elo</label>
- <select name="elo" class="form-select" required>
- <option value="">Selecione...</option>
- <option>Ferro</option>
- <option>Bronze</option>
- <option>Prata</option>
- <option>Ouro</option>
- <option>Platina</option>
- <option>Diamante</option>
- <option>Master</option>
- <option>Grandmaster</option>
- <option>Challenger</option>
- </select>
+<label class="form-label">Elo</label>
+<select name="elo" class="form-select" required>
+<option value="">Selecione...</option>
+<option>Ferro</option>
+<option>Bronze</option>
+<option>Prata</option>
+<option>Ouro</option>
+<option>Platina</option>
+<option>Diamante</option>
+<option>Master</option>
+<option>Grandmaster</option>
+<option>Challenger</option>
+</select>
 </div>
 <div class="mb-3">
- <label class="form-label">Gênero</label>
- <select name="genero" class="form-select" required>
- <option value="">Selecione...</option>
- <option>Masculino</option>
- <option>Feminino</option>
- </select>
+<label class="form-label">Gênero</label>
+<select name="genero" class="form-select" required>
+<option value="">Selecione...</option>
+<option>Masculino</option>
+<option>Feminino</option>
+</select>
 </div>
 
 <div class="mb-3">
- <label class="form-label">Equipe</label>
- <select name="equipeId" class="form-select" required>
- <option value="">Selecione uma equipe...</option>
- ${options}
- </select>
+<label class="form-label">Equipe</label>
+<select name="equipeId" class="form-select" required>
+<option value="">Selecione uma equipe...</option>
+${options}
+</select>
 </div>
 
 <div class="mt-4">
- <button class="btn btn-lol-primary"><i class="fas fa-user-plus me-2"></i>Cadastrar Jogador</button>
- <a class="btn btn-secondary ms-2" href="/"><i class="fas fa-arrow-left me-2"></i>Voltar</a>
+<button class="btn btn-lol-primary"><i class="fas fa-user-plus me-2"></i>Cadastrar Jogador</button>
+<a class="btn btn-secondary ms-2" href="/"><i class="fas fa-arrow-left me-2"></i>Voltar</a>
 </div>
 </form>
 </div>`;
@@ -430,10 +434,10 @@ app.get('/jogadores/listar', verificaUserLogado, (req, res) => {
 
         const lista = jogadores.filter(j => j.equipeId === e.id);
         if (lista.length === 0) {
-           
+
             html += '<p class="text-muted fst-italic">Nenhum jogador cadastrado nesta equipe.</p>';
         } else {
-           
+
             html += '<div class="table-responsive"><table class="table table-sm table-striped mt-2"><thead><tr><th>#</th><th>Nome</th><th>Nick</th><th>Função</th><th>Elo</th><th>Gênero</th></tr></thead><tbody>';
             for (const j of lista) {
                 html += `<tr><td>${j.id}</td><td>${j.nome}</td><td>${j.nick}</td><td>${j.funcao}</td><td>${j.elo}</td><td>${j.genero}</td></tr>`;
