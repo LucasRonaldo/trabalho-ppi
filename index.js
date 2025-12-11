@@ -142,13 +142,16 @@ ${bodyHtml}
 }
 
 app.get('/', verificaUserLogado, (req, res) => {
-    const ultimoAcesso = req.cookies?.ultimoAcesso;
-    const agora = new Date();
+  const ultimoAcesso = req.cookies?.ultimoAcesso;
+  const agora = new Date();
+  
+ 
+  const dataFormatada = agora.toLocaleString('pt-BR', { 
+    timeZone: 'America/Sao_Paulo',
+    hour12: false 
+});
 
-    // CORREÇÃO: Força o uso do fuso horário de São Paulo (GMT-3) para o cookie e exibição
-    const dataFormatada = agora.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
-
-    res.cookie('ultimoAcesso', dataFormatada, { maxAge: 1000 * 60 * 60 * 24 * 30 });
+ res.cookie('ultimoAcesso', dataFormatada, { maxAge: 1000 * 60 * 60 * 24 * 30 });
 
     const body = `
 <div class="container">
